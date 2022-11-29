@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Login Start */
+
+#sty-Todo {
+    color: #1877f2;
+}
+
+.user-login {
+    margin: 100px 0px 0px 0px;
+}
+
+.sty-Login {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Login End */
+
+/* Navbar Start */
+
+.hamburger {
+    border: none;
+}
+
+.hamburger:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.hamburger-close:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#brand-title {
+    color: #1877f2;
+    font-weight: 700;
+}
+
+.navigation {
+    background-color: #f0f2f5 !important;
+}
+
+/* Navbar End */
