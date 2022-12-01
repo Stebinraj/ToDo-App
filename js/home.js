@@ -59,7 +59,7 @@ const checkbox_count = (checked) => {
             resolve(checked);
         }
     });
-    count_promise.then(() => {
+    count_promise.then((checked) => {
         alert(`Congrats ${checked} Tasks have been Successfully Completed`);
     });
 }
