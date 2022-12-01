@@ -1,68 +1,73 @@
-//To Do list Start
+// Todo List Start
 "use strict";
-let todo = document.getElementById("todo");
-todo.addEventListener("click", () => {
+document.getElementById("todo").onclick = () => {
     ajaxcall_to_do_list();
-})
-
-function ajaxcall_to_do_list() {
-    "use strict";
-    let todo_xhttp = new XMLHttpRequest();
-    todo_xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(this.responseText);
-            let todo_list_promise = new Promise((resolve, reject) => {
-                let todo_data = "";
-                let todo_status = "";
-                for (let i = 0; i < response.length; i++) {
-                    if (response[i].completed == true) {
-                        todo_status = `<input type="checkbox" checked disabled="disabled">`;
-                    } else {
-                        todo_status = '<input type="checkbox" class="check">';
-                    }
-                    todo_data += `
-                    <table class="table-bordered w-100">
-                    <td class="w-25 p-2 text-center">${response[i].id}</td>
-                    <td class="w-50 p-2">${response[i].title}</td>
-                    <td class="w-25 p-2 text-center">${todo_status}</td>
-                    </table>`;
-                }
-                resolve(todo_data);
-            })
-            todo_list_promise.then((todo_data) => {
-                document.getElementById("todo-list-table").innerHTML = todo_data;
-            })
-            todo_list_promise.then(() => {
-                chk_box_validate();
-            })
-        }
-    }
-    todo_xhttp.open("GET", "https://jsonplaceholder.typicode.com/todos", true)
-    todo_xhttp.send();
 }
 
-function chk_box_validate() {
-    let check = document.getElementsByClassName("check");
-    check = addEventListener("input", () => {
-        "use strict";
-        var count = 0;
-        let check = document.getElementsByClassName("check");
-        for (let i = 0; i < check.length; i++) {
-            if (check[i].checked == true) {
-                count += 1;
+//AJAX call to fetch API
+const ajaxcall_to_do_list = () => {
+    "use strict";
+    let to_do_list_promise = new Promise(function (resolve, reject) {
+        let todo_xhttp = new XMLHttpRequest();
+        todo_xhttp.open("GET", "https://jsonplaceholder.typicode.com/todos");
+        todo_xhttp.onload = function () {
+            if (todo_xhttp.readyState == 4 && todo_xhttp.status == 200) {
+                var to_do_list_response = JSON.parse(todo_xhttp.responseText);
+                resolve(to_do_list_response);
+            }
+            else {
+                reject("Error Occoured");
             }
         }
-        if (count == 5) {
-            alert("Congrats. 5 Tasks have been Successfully Completed");
-        }
+        todo_xhttp.send();
     })
+
+    to_do_list_promise.then((to_do_list_response) => {
+        let todo_data = "";
+        let todo_status = "";
+        for (let i = 0; i < to_do_list_response.length; i++) {
+            if (to_do_list_response[i].completed == true) {
+                todo_status = `<input type="checkbox" checked disabled="disabled">`
+            } else {
+                todo_status = '<input type="checkbox" id="check" onclick="checkbox_validate(checkbox_count)">';
+            }
+            todo_data += `
+            <table class="table-bordered w-100">
+            <td class="w-25 p-2 text-center">${to_do_list_response[i].id}</td>
+            <td class="w-50 p-2">${to_do_list_response[i].title}</td>
+            <td class="w-25 p-2 text-center">${todo_status}</td>
+            </table>`;
+        }
+        document.getElementById("todo-list-table").innerHTML = todo_data;
+    }
+    );
 }
-// To Do List End
+// Todo List End
+
+
+//Checkbox Validation Start
+const checkbox_validate = (checkbox_count) => {
+    "use strict";
+    let checked = document.querySelectorAll('input[id="check"]:checked').length;
+    checkbox_count(checked);
+}
+
+const checkbox_count = (checked) => {
+    "use strict";
+    let count_promise = new Promise(function (resolve) {
+        if (checked == 5) {
+            resolve(checked);
+        }
+    });
+    count_promise.then(() => {
+        alert(`Congrats ${checked} Tasks have been Successfully Completed`);
+    });
+}
+//Checkbox Validation End
 
 // Navbar Start
-let logout_button = document.getElementById("log-out-btn")
-logout_button.addEventListener("click", () => {
+document.getElementById("log-out-btn").onclick = () => {
     "use strict";
     location.href = "../index.html";
-});
+}
 // Navbar End

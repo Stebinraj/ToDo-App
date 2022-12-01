@@ -3,25 +3,23 @@
 let username = document.getElementById("user-login-username");
 let password = document.getElementById("user-login-password");
 let login_form = document.getElementById("login-form");
-let user_regex = /^(?:^|\W)admin(?:$|\W)$/;
-let pass_regex = /^(?:^|\W)12345(?:$|\W)$/;
 
-const login = (valid) => {
+function login(valid) {
     "use strict";
-    login_form.addEventListener("submit", () => {
-        if (user_regex.test(username.value) && pass_regex.test(password.value)) {
-            valid();
-        } else {
-            alert("Invalid Credentials");
-        }
-    })
+    if (username.value === "admin" && password.value == 12345) {
+        valid()
+    } else {
+        alert("Invalid Credentials")
+    }
 }
 
-const valid = () => {
+function valid() {
     "use strict";
-    login_form.action = "assets/home.html";
+    login_form.action = "assets/home.html"
 }
 
-login(valid);
-
+login_form.onsubmit = () => {
+    "use strict";
+    login(valid);
+}
 // Login End
