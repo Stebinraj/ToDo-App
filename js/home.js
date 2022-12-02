@@ -10,7 +10,7 @@ const ajaxcall_to_do_list = () => {
     let to_do_list_promise = new Promise(function (resolve, reject) {
         let todo_xhttp = new XMLHttpRequest();
         todo_xhttp.open("GET", "https://jsonplaceholder.typicode.com/todos");
-        todo_xhttp.onload = function () {
+        todo_xhttp.onload = () => {
             if (todo_xhttp.readyState == 4 && todo_xhttp.status == 200) {
                 var to_do_list_response = JSON.parse(todo_xhttp.responseText);
                 resolve(to_do_list_response);
@@ -29,7 +29,7 @@ const ajaxcall_to_do_list = () => {
             if (to_do_list_response[i].completed == true) {
                 todo_status = `<input type="checkbox" checked disabled="disabled">`
             } else {
-                todo_status = '<input type="checkbox" id="check" onclick="checkbox_validate(checkbox_count)">';
+                todo_status = '<input type="checkbox" id="check" onclick="checkbox_validate()">';
             }
             todo_data += `
             <table class="table-bordered w-100">
@@ -39,29 +39,23 @@ const ajaxcall_to_do_list = () => {
             </table>`;
         }
         document.getElementById("todo-list-table").innerHTML = todo_data;
-    }
-    );
+    });
 }
 // Todo List End
 
-
 //Checkbox Validation Start
-const checkbox_validate = (checkbox_count) => {
-    "use strict";
-    let checked = document.querySelectorAll('input[id="check"]:checked').length;
-    checkbox_count(checked);
-}
-
-const checkbox_count = (checked) => {
-    "use strict";
-    let count_promise = new Promise(function (resolve) {
+const checkbox_validate = () => {
+    let count_promise = new Promise((resolve) => {
+        let checked = document.querySelectorAll('input[id="check"]:checked').length;
         if (checked == 5) {
-            resolve(checked);
+            resolve(checked)
         }
-    });
-    count_promise.then((checked) => {
-        alert(`Congrats ${checked} Tasks have been Successfully Completed`);
-    });
+    })
+
+    count_promise
+        .then((checked) => {
+            alert(`Congrats ${checked} has been Successfully Completed`);
+        })
 }
 //Checkbox Validation End
 
